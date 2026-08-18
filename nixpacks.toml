@@ -2,10 +2,16 @@
 nixPkgs = ["nodejs_20", "python3", "gcc", "gnumake"]
 
 [phases.install]
-cmds = ["cd backend && npm install && npm rebuild better-sqlite3"]
+cmds = [
+  "npm install --prefix backend",
+  "npm rebuild better-sqlite3 --prefix backend"
+]
 
 [phases.build]
-cmds = ["cd frontend && npm install && npm run build"]
+cmds = [
+  "npm install --prefix frontend",
+  "npm run build --prefix frontend"
+]
 
 [start]
 cmd = "cd backend && npm start"
