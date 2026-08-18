@@ -1,0 +1,88 @@
+:root {
+  --bg-base: #0c0e12;
+  --bg-panel: #111419;
+  --bg-raised: #161a21;
+  --bg-active: #1c2130;
+  --border: #232834;
+  --border-light: #2a3040;
+
+  --text-primary: #e2e6ef;
+  --text-secondary: #8892a4;
+  --text-muted: #4a5568;
+  --text-mono: #9ba8bc;
+
+  --bullish: #22c55e;
+  --bullish-bg: rgba(34, 197, 94, 0.08);
+  --bullish-border: rgba(34, 197, 94, 0.2);
+
+  --bearish: #ef4444;
+  --bearish-bg: rgba(239, 68, 68, 0.08);
+  --bearish-border: rgba(239, 68, 68, 0.2);
+
+  --neutral: #94a3b8;
+  --neutral-bg: rgba(148, 163, 184, 0.08);
+  --neutral-border: rgba(148, 163, 184, 0.2);
+
+  --watch: #f59e0b;
+  --watch-bg: rgba(245, 158, 11, 0.08);
+  --watch-border: rgba(245, 158, 11, 0.2);
+
+  --unconfirmed: #a78bfa;
+  --unconfirmed-bg: rgba(167, 139, 250, 0.08);
+  --unconfirmed-border: rgba(167, 139, 250, 0.2);
+
+  --accent: #3b82f6;
+  --accent-dim: rgba(59, 130, 246, 0.15);
+
+  --font-sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+
+  --radius-sm: 3px;
+  --radius: 6px;
+  --radius-lg: 10px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 14px; }
+
+body {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+button {
+  cursor: pointer;
+  font-family: var(--font-sans);
+  border: none;
+  background: none;
+}
+
+input, select, textarea {
+  font-family: var(--font-sans);
+  background: var(--bg-raised);
+  border: 1px solid var(--border-light);
+  color: var(--text-primary);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--accent);
+}
+
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 99px; }
+
+.mono { font-family: var(--font-mono); }
+.muted { color: var(--text-secondary); }

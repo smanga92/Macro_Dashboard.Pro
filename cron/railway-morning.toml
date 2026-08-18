@@ -1,0 +1,7 @@
+[build]
+builder = "nixpacks"
+buildCommand = "cd backend && npm install"
+
+[deploy]
+startCommand = "node cron/morning.js"
+cronSchedule = "0 7 * * 1-5"

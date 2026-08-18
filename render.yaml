@@ -1,0 +1,85 @@
+services:
+  # ── Main web service ─────────────────────────────────────────────
+  - type: web
+    name: macro-dashboard
+    runtime: node
+    region: oregon
+    plan: starter
+    buildCommand: |
+      cd backend && npm install
+      cd ../frontend && npm install && npm run build
+    startCommand: cd backend && npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
+      - key: ENCRYPTION_KEY
+        generateValue: true
+      - key: DB_PATH
+        value: /var/data/macro.db
+    disk:
+      name: macro-db
+      mountPath: /var/data
+      sizeGB: 1
+
+  # ── Morning dashboard cron ───────────────────────────────────────
+  - type: cron
+    name: macro-morning-brief
+    runtime: node
+    region: oregon
+    plan: starter
+    schedule: "0 7 * * 1-5"
+    buildCommand: cd backend && npm install
+    startCommand: node cron/morning.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: ENCRYPTION_KEY
+        fromService:
+          name: macro-dashboard
+          type: web
+          envVarKey: ENCRYPTION_KEY
+      - key: DB_PATH
+        value: /var/data/macro.db
+
+  # ── Post-event refresh cron ──────────────────────────────────────
+  - type: cron
+    name: macro-post-event
+    runtime: node
+    region: oregon
+    plan: starter
+    schedule: "* * * * *"
+    buildCommand: cd backend && npm install
+    startCommand: node cron/post-event.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: ENCRYPTION_KEY
+        fromService:
+          name: macro-dashboard
+          type: web
+          envVarKey: ENCRYPTION_KEY
+      - key: DB_PATH
+        value: /var/data/macro.db
+
+  # ── Source health check cron ─────────────────────────────────────
+  - type: cron
+    name: macro-health-check
+    runtime: node
+    region: oregon
+    plan: starter
+    schedule: "*/30 * * * *"
+    buildCommand: cd backend && npm install
+    startCommand: node cron/health-check.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: ENCRYPTION_KEY
+        fromService:
+          name: macro-dashboard
+          type: web
+          envVarKey: ENCRYPTION_KEY
+      - key: DB_PATH
+        value: /var/data/macro.db
